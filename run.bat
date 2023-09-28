@@ -38,7 +38,8 @@ if not defined local_deploy (
     echo Docker is installed and running. Building and running the Flask app inside a Docker container...
     SET DOCKER_BUILDKIT=1
     docker build -t labio-all . && (
-        start cmd /k "docker run -p 5000:5000 --name labio-web-app labio-all"
+        start cmd /k "docker run -p 5000:5000 labio-all"
+	ping 127.0.0.1 -n 1 >nul
         GOTO TryMsEdge
     )
 )

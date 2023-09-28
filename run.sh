@@ -39,19 +39,19 @@ fi
 
 # Try to open Safari
 if command_exists open && [ -e /Applications/Safari.app ]; then
-    open -a Safari http://127.0.0.1:5000/
+    open -a Safari http://localhost:5000/
     exit 0
 fi
 
 # Try to open Google Chrome in incognito mode
 if command_exists google-chrome; then
-    google-chrome --incognito http://127.0.0.1:5000/ &
+    google-chrome --incognito http://localhost:5000/ &
     exit 0
 fi
 
 # Try to open Mozilla Firefox in private mode
 if command_exists firefox; then
-    firefox --private-window http://127.0.0.1:5000/ &
+    firefox --private-window http://localhost:5000/ &
     exit 0
 fi
 
