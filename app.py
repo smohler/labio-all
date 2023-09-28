@@ -80,7 +80,7 @@ def swagger_ui():
 
 @app.route('/api/spec')
 def api_spec():
-    return send_from_directory('.', 'all_webapi_spec.yaml')
+    return send_from_directory('.', 'swagger.yaml')
 
 # Swagger UI template
 swagger_ui_template = '''

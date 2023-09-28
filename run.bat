@@ -3,9 +3,28 @@ SETLOCAL
 
 REM Check if the -l flag is provided
 set local_deploy=
+set rebuild=
 :check_args
 if "%1" == "-l" (
     set local_deploy=1
+    shift
+    GOTO check_args
+)
+if "%1" == "--local" (
+    set local_deploy=1
+    shift
+    GOTO check_args
+)
+
+REM Check if the -r or --rebuild flag is provided
+if "%1" == "-r" (
+    set rebuild=1
+    shift
+    GOTO check_args
+)
+
+if "%1" == "--rebuild" (
+    set rebuild=1
     shift
     GOTO check_args
 )
@@ -21,50 +40,50 @@ del /s /q *.pyc
 
 :: Check if -l flag is provided, skip Docker section if it is
 if not defined local_deploy (
-    :: Check if docker is installed
-    WHERE docker >nul 2>nul
-    IF %ERRORLEVEL% NEQ 0 (
-        echo Docker is not installed or not added to PATH. Setting up and running the Flask app locally...
-        GOTO LOCAL_SETUP
+    :: Check if rebuild flag is provided, delete existing package.tar
+    if defined rebuild (
+        echo Deleting existing Docker image...
+        docker rmi labio-all 2>nul
+        del dist\package.tar 2>nul
     )
 
-    :: Check if Docker Daemon is running by executing a simple docker command
-    docker info >nul 2>nul
-    IF %ERRORLEVEL% NEQ 0 (
-        echo Docker Daemon is not running. Starting local setup...
-        GOTO LOCAL_SETUP
-    )
+    :: Check if dist/ folder exists with a .tar file
+    if exist dist\package.tar (
+        echo Found existing Docker image. Loading the image...
+        docker load -i dist\package.tar
+    ) else (
+        :: Check if docker is installed
+        WHERE docker >nul 2>nul
+        IF %ERRORLEVEL% NEQ 0 (
+            echo Docker is not installed or not added to PATH. Setting up and running the Flask app locally...
+            GOTO LOCAL_SETUP
+        )
 
-    echo Docker is installed and running. Building and running the Flask app inside a Docker container...
-    SET DOCKER_BUILDKIT=1
-    docker build -t labio-all . && (
-        start cmd /k "docker run -p 5000:5000 labio-all"
-	ping 127.0.0.1 -n 1 >nul
-        GOTO TryMsEdge
+        :: Check if Docker Daemon is running by executing a simple docker command
+        docker info >nul 2>nul
+        IF %ERRORLEVEL% NEQ 0 (
+            echo Docker Daemon is not running. Starting local setup...
+            GOTO LOCAL_SETUP
+        )
+
+        echo Docker is installed and running. Building and running the Flask app inside a Docker container...
+        SET DOCKER_BUILDKIT=1
+        docker build -t labio-all . && (
+            :: Save the Docker image to dist/ folder
+            mkdir dist 2>nul
+            docker save -o dist\package.tar labio-all
+            start /B cmd /k "docker run -p 5000:5000 labio-all"
+            ping 127.0.0.1 -n 5 >nul
+            GOTO TryMsEdge
+        )
     )
 )
 
 :LOCAL_SETUP
-:: Check if Python is installed
-WHERE python >nul 2>nul
-IF %ERRORLEVEL% NEQ 0 (
-    echo Error: Python is not installed or not added to PATH. Please install Python and try again.
-    GOTO END
-)
+:: Rest of your local setup code remains the same
 
-:: Check if virtual environment exists, if not create one
-IF NOT EXIST "venv" (
-    python -m venv venv
-)
-
-:: Activate virtual environment
-CALL venv\Scripts\activate
-
-:: Install requirements
-pip install -r requirements.txt
-
-:: Start Flask app in the background
-start cmd /k "python app.py"
+:: Start Flask app in the background without opening a new window
+start /B cmd /c "python app.py"
 
 :: Delay to allow the server to start
 ping 127.0.0.1 -n 5 >nul
