@@ -1,7 +1,7 @@
 
-## ALL Web API
+## **A**wesome **Lab** **L**IMS
 
-This repository contains a simple Flask-based API with SQLite as the database.
+This repository contains a simple Flask-based API with SQLite as the database [TODO].
 
 ### Prerequisites
 
@@ -22,6 +22,7 @@ Both `run.sh` (for Mac and Unix-like systems) and `run.bat` (for Windows) are pr
 2. Once the Flask app is running, you can access the API at `http://127.0.0.1:5000/`.
 
 ### Running the Scripts
+This repo has provide to getting started run script for both Mac and Windows users.
 
 #### For Mac and Unix-like systems:
 
@@ -31,5 +32,8 @@ chmod +x run.sh
 ```
 
 #### For Windows:
-
-Double-click on `run.bat` or run it from the command prompt.
+Open a cmd prompt in the root of the cloned repository. From here you just have to type run.
+```cmd
+C:\labio-all>run
+```
+You can also open the folder in the file browswer and click the run.bat file.
