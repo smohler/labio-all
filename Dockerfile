@@ -10,8 +10,8 @@ COPY . .
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Make port 5000 available to the outside world
-EXPOSE 5000
+# Make port 5001 available to the outside world
+EXPOSE 5001
 
 # Define the command to run the app using Flask's development server
 CMD ["python", "./app.py"]

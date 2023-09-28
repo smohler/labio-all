@@ -72,7 +72,7 @@ if not defined local_deploy (
             :: Save the Docker image to dist/ folder
             mkdir dist 2>nul
             docker save -o dist\package.tar labio-all
-            start /B cmd /k "docker run -p 5000:5000 labio-all"
+            start /B cmd /k "docker run -p 5001:5001 labio-all"
             ping 127.0.0.1 -n 5 >nul
             GOTO TryMsEdge
         )
@@ -90,14 +90,14 @@ ping 127.0.0.1 -n 5 >nul
 
 :TryMsEdge
 :: Try to open Microsoft Edge in InPrivate mode
-start msedge -inprivate http://localhost:5000/
+start msedge -inprivate http://localhost:5001/
 if %errorlevel% neq 0 GOTO TryChrome
 :: If Edge opens successfully, exit
 GOTO END 
 
 :TryChrome
 :: Try to open Google Chrome in incognito mode
-start chrome --incognito http://localhost:5000/
+start chrome --incognito http://localhost:5001/
 if %errorlevel% neq 0 GOTO TryFirefox
 
 :: If Chrome opens successfully, exit
@@ -105,7 +105,7 @@ GOTO END
 
 :TryFirefox
 :: Try to open Mozilla Firefox in private mode
-start firefox -private http://localhost:5000/
+start firefox -private http://localhost:5001/
 if %errorlevel% neq 0 GOTO NoBrowsers
 
 :: If Firefox opens successfully, exit

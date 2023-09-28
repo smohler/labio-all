@@ -19,7 +19,7 @@ Both `run.sh` (for Mac and Unix-like systems) and `run.bat` (for Windows) are pr
         2. Set up a virtual environment (if not already set up).
         3. Install the required Python packages.
         4. Run the Flask app.
-2. Once the Flask app is running, you can access the API at `http://127.0.0.1:5000/`.
+2. Once the Flask app is running, you can access the API at `http://127.0.0.1:5001/`.
 
 ### Running the Scripts
 This repo has provide to getting started run script for both Mac and Windows users.
