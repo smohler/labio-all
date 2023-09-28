@@ -1,21 +1,38 @@
-
 openapi: 3.0.0
 info:
   version: 1.0.0
   title: ALL Web API
   description: An API for retrieving and updating sample data.
-
 paths:
+  /samples:
+    get:
+      tags:
+      - samples
+      summary: Retrieve all samples
+      description: Returns the entire samples database
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  $ref: '#/components/schemas/Sample'
+        '500':
+          description: Internal server error
   /sample/{sampleID}:
     get:
+      tags:
+      - samples
       summary: Retrieve sample data by sampleID
       parameters:
-        - name: sampleID
-          in: path
-          required: true
-          description: ID of the sample to retrieve
-          schema:
-            type: string
+      - name: sampleID
+        in: path
+        required: true
+        description: ID of the sample to retrieve
+        schema:
+          type: string
       responses:
         '200':
           description: Sample data retrieved successfully
@@ -34,7 +51,8 @@ paths:
                         format: double
                       unit:
                         type: string
-                        enum: [uL]
+                        enum:
+                        - uL
                   conc:
                     type: object
                     properties:
@@ -43,21 +61,24 @@ paths:
                         format: double
                       unit:
                         type: string
-                        enum: [mg/ml]
+                        enum:
+                        - mg/ml
                   created:
                     type: string
                     format: date-time
         '404':
           description: SampleID not found
     post:
+      tags:
+      - samples
       summary: Update the volume value of a sample by sampleID
       parameters:
-        - name: sampleID
-          in: path
-          required: true
-          description: ID of the sample to update
-          schema:
-            type: string
+      - name: sampleID
+        in: path
+        required: true
+        description: ID of the sample to update
+        schema:
+          type: string
       requestBody:
         required: true
         content:
@@ -78,3 +99,27 @@ paths:
           description: Bad request - invalid input
         '404':
           description: SampleID not found
+components:
+  schemas:
+    Sample:
+      type: object
+      properties:
+        labware:
+          type: string
+        volume:
+          type: object
+          properties:
+            value:
+              type: number
+            unit:
+              type: string
+        conc:
+          type: object
+          properties:
+            value:
+              type: number
+            unit:
+              type: string
+        created:
+          type: string
+          format: date-time
