@@ -105,7 +105,12 @@ components:
       type: object
       properties:
         labware:
-          type: string
+          type: object
+          properties:
+            vendor:
+              type: string
+            catalog:
+              type: string
         volume:
           type: object
           properties:
@@ -123,3 +128,5 @@ components:
         created:
           type: string
           format: date-time
+        material:
+          type: string
