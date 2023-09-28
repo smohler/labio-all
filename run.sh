@@ -33,3 +33,26 @@ else
     # Run Flask app
     python api/app.py
 fi
+
+# Try to open Safari
+if which open > /dev/null && [ -e /Applications/Safari.app ]; then
+    open -a Safari http://127.0.0.1:5000/
+    exit 0
+fi
+
+# Try to open Google Chrome in incognito mode
+if which google-chrome > /dev/null; then
+    google-chrome --incognito http://127.0.0.1:5000/ &
+    exit 0
+fi
+
+# Try to open Mozilla Firefox in private mode
+if which firefox > /dev/null; then
+    firefox --private-window http://127.0.0.1:5000/ &
+    exit 0
+fi
+
+# If neither browser is found, print a message
+echo "No supported browsers found."
+
+

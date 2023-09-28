@@ -68,3 +68,29 @@ python app.py
 :END
 ENDLOCAL
 
+:: Try to open Microsoft Edge in InPrivate mode
+start msedge -inprivate http://127.0.0.1:5000/
+if %errorlevel% neq 0 GOTO TryChrome
+
+:: If Edge opens successfully, exit
+EXIT
+
+:: Try to open Google Chrome in incognito mode
+chrome --incognito http://127.0.0.1:5000/
+if %errorlevel% neq 0 GOTO TryFirefox
+
+:: If Chrome opens successfully, exit
+EXIT
+
+:TryFirefox
+:: Try to open Mozilla Firefox in private mode
+firefox -private http://127.0.0.1:5000/
+if %errorlevel% neq 0 GOTO NoBrowsers
+
+:: If Firefox opens successfully, exit
+EXIT
+
+:NoBrowsers
+ECHO No supported browsers found.
+PAUSE
+EXIT
