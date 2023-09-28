@@ -10,12 +10,9 @@ COPY . .
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Seed the database
-RUN python ./api/models.py
-
 # Make port 5000 available to the outside world
 EXPOSE 5000
 
 # Define the command to run the app using Flask's development server
-CMD ["python", "./api/app.py"]
+CMD ["python", "./app.py"]
 

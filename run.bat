@@ -38,8 +38,8 @@ if not defined local_deploy (
     echo Docker is installed and running. Building and running the Flask app inside a Docker container...
     SET DOCKER_BUILDKIT=1
     docker build -t labio-all . && (
-        docker run -p 5000:5000 labio-all
-        GOTO END
+        start cmd /k "docker run -p 5000:5000 --name labio-web-app labio-all"
+        GOTO TryMsEdge
     )
 )
 
@@ -62,35 +62,39 @@ CALL venv\Scripts\activate
 :: Install requirements
 pip install -r requirements.txt
 
-:: Run Flask app
-python app.py
+:: Start Flask app in the background
+start cmd /k "python app.py"
 
-:END
-ENDLOCAL
+:: Delay to allow the server to start
+ping 127.0.0.1 -n 5 >nul
 
+:TryMsEdge
 :: Try to open Microsoft Edge in InPrivate mode
-start msedge -inprivate http://127.0.0.1:5000/
+start msedge -inprivate http://localhost:5000/
 if %errorlevel% neq 0 GOTO TryChrome
-
 :: If Edge opens successfully, exit
-EXIT
+GOTO END 
 
+:TryChrome
 :: Try to open Google Chrome in incognito mode
-chrome --incognito http://127.0.0.1:5000/
+start chrome --incognito http://localhost:5000/
 if %errorlevel% neq 0 GOTO TryFirefox
 
 :: If Chrome opens successfully, exit
-EXIT
+GOTO END
 
 :TryFirefox
 :: Try to open Mozilla Firefox in private mode
-firefox -private http://127.0.0.1:5000/
+start firefox -private http://localhost:5000/
 if %errorlevel% neq 0 GOTO NoBrowsers
 
 :: If Firefox opens successfully, exit
-EXIT
+GOTO END
 
 :NoBrowsers
 ECHO No supported browsers found.
 PAUSE
 EXIT
+
+:END
+ENDLOCAL

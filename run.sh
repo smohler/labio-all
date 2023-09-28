@@ -9,7 +9,7 @@ command_exists() {
 if command_exists docker; then
     echo "Docker is installed. Building and running the Flask app inside a Docker container..."
     docker build -t labio-all .
-    docker run -p 5000:5000 labio-all
+    docker run -p 5000:5000 labio-all &
 else
     echo "Docker is not installed. Setting up and running the Flask app locally..."
 
@@ -30,29 +30,31 @@ else
     # Install requirements
     pip install -r requirements.txt
 
-    # Run Flask app
-    python api/app.py
+    # Start Flask app in the background
+    python api/app.py &
+
+    # Delay to allow the server to start
+    sleep 5
 fi
 
 # Try to open Safari
-if which open > /dev/null && [ -e /Applications/Safari.app ]; then
+if command_exists open && [ -e /Applications/Safari.app ]; then
     open -a Safari http://127.0.0.1:5000/
     exit 0
 fi
 
 # Try to open Google Chrome in incognito mode
-if which google-chrome > /dev/null; then
+if command_exists google-chrome; then
     google-chrome --incognito http://127.0.0.1:5000/ &
     exit 0
 fi
 
 # Try to open Mozilla Firefox in private mode
-if which firefox > /dev/null; then
+if command_exists firefox; then
     firefox --private-window http://127.0.0.1:5000/ &
     exit 0
 fi
 
 # If neither browser is found, print a message
 echo "No supported browsers found."
-
 
