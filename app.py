@@ -10,8 +10,32 @@ app = Flask(__name__)
 def generate_sampleID():
     return ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(8))
 
-def generate_sampleMaterial():
-    return random.choice(["DNA", "PRO", "CEL", "BAC"])
+def generateDNAseq():
+    nucleic_acids = ['A', 'G', 'C', 'T']
+
+def generatePROseq():
+    amino_acids = []
+    pass
+
+def generateWGseq(sampleID, material):
+    header = "awesometx.s3.amazonaws.com/wgs" 
+    return  f"{header}/{material}/{sampleID}"
+
+def generate_sampleMaterial(sampleID):
+    material = random.choice(["DNA", "PRO", "CEL", "BAC"])
+    if material == "DNA":
+        return { "type": material,
+                 "seq": generateDNAseq() }
+    if material == "PRO":
+        return { "type": material,
+                 "seq": generatePROseq() }
+    if material == "CEL":
+        return { "type": material,
+                 "seq": generateWGseq(sampleID, "CEL") }
+    if material == "BAC":
+        return { "type": material,
+                 "seq": generateWGseq(sampleID, "BAC") }
+    return "0x000000"
 
 def random_date(start, end):
     """Generate a random datetime between `start` and `end`."""
@@ -28,7 +52,7 @@ def generate_samples_db(num_samples):
     for _ in range(num_samples):
         sampleID = generate_sampleID()
         samples[sampleID] = {
-            "material": generate_sampleMaterial(), 
+            "material": generate_sampleMaterial(sampleID), 
             "labware": random.choice(
                             [
                                 {"vendor":"epitube", "catalog":"0030123611"},
