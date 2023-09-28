@@ -1,0 +1,80 @@
+
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: ALL Web API
+  description: An API for retrieving and updating sample data.
+
+paths:
+  /sample/{sampleID}:
+    get:
+      summary: Retrieve sample data by sampleID
+      parameters:
+        - name: sampleID
+          in: path
+          required: true
+          description: ID of the sample to retrieve
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Sample data retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  labware:
+                    type: string
+                  volume:
+                    type: object
+                    properties:
+                      value:
+                        type: number
+                        format: double
+                      unit:
+                        type: string
+                        enum: [uL]
+                  conc:
+                    type: object
+                    properties:
+                      value:
+                        type: number
+                        format: double
+                      unit:
+                        type: string
+                        enum: [mg/ml]
+                  created:
+                    type: string
+                    format: date-time
+        '404':
+          description: SampleID not found
+    post:
+      summary: Update the volume value of a sample by sampleID
+      parameters:
+        - name: sampleID
+          in: path
+          required: true
+          description: ID of the sample to update
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                volume:
+                  type: object
+                  properties:
+                    value:
+                      type: number
+                      format: double
+      responses:
+        '200':
+          description: Sample data updated successfully
+        '400':
+          description: Bad request - invalid input
+        '404':
+          description: SampleID not found
