@@ -62,11 +62,8 @@ CALL venv\Scripts\activate
 :: Install requirements
 pip install -r requirements.txt
 
-:: Seed Database
-python api\models.py
-
 :: Run Flask app
-python api\app.py
+python app.py
 
 :END
 ENDLOCAL
