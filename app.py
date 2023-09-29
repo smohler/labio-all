@@ -10,33 +10,15 @@ app = Flask(__name__)
 def generate_sampleID():
     return ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(8))
 
-def generateDNAseq():
-    nucleic_acids = ['A', 'G', 'C', 'T']
-
-def generatePROseq():
-    amino_acids = []
-    pass
-
-def generateWGseq(sampleID, material):
+def generate_seq(sampleID, material):
     header = "awesometx.s3.amazonaws.com/wgs" 
     return  f"{header}/{material}/{sampleID}"
 
 def generate_sampleMaterial(sampleID):
     material = random.choice(["DNA", "PRO", "CEL", "BAC"])
-    if material == "DNA":
-        return { "type": material,
-                 "seq": generateDNAseq() }
-    if material == "PRO":
-        return { "type": material,
-                 "seq": generatePROseq() }
-    if material == "CEL":
-        return { "type": material,
-                 "seq": generateWGseq(sampleID, "CEL") }
-    if material == "BAC":
-        return { "type": material,
-                 "seq": generateWGseq(sampleID, "BAC") }
-    return "0x000000"
-
+    return { "type" : material,
+             "seq"  : generate_seq(sampleID, material) }
+    
 def random_date(start, end):
     """Generate a random datetime between `start` and `end`."""
     return start + timedelta(

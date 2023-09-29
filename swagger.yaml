@@ -129,4 +129,9 @@ components:
           type: string
           format: date-time
         material:
-          type: string
+          type: object
+          properties:
+            type:
+              type: string
+            seq:
+              type: string 
