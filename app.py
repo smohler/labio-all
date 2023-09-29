@@ -60,6 +60,11 @@ samples_db = generate_samples_db(10000)
 def get_all_sample_ids():
     return jsonify(list(samples_db.keys()))
 
+@app.route('/samples/random', methods=['GET'])
+def get_random_sample():
+    sample = random.choice(list(samples_db.keys()))
+    return samples_db[sample]
+
 @app.route('/sample/<sampleID>', methods=['GET'])
 def get_sample(sampleID):
     sample_data = samples_db.get(sampleID)
