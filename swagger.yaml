@@ -21,6 +21,23 @@ paths:
                   $ref: '#/components/schemas/Sample'
         '500':
           description: Internal server error
+  /samples/random:
+    get:
+      tags:
+      - samples
+      summary: Retrieve a random sample
+      description: Returns a random sample from the database
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  $ref: '#/components/schemas/Sample'
+        '500':
+          description: Internal server error
   /sample/{sampleID}:
     get:
       tags:
