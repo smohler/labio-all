@@ -1,6 +1,4 @@
-
 ## **A**wesome **Lab** **L**IMS
-
 This repository contains a simple Flask-based API with SQLite as the database [TODO].
 
 ### Prerequisites
@@ -37,11 +35,11 @@ Open a cmd prompt in the root of the cloned repository. From here you just have 
 C:\labio-all>run
 ```
 You can also open the folder in the file browswer and click the run.bat file.
+Below is the story problem that goes with this problem and can be found on labautomation.io.
 
 ---
 
 # Awesome Therapeutics Liquid Handling LIMS Integration
-
 It's been a while! I'm back with an ambitious ask for the tinkerers and programmers! I want to say first... look this took me months to make in my off time, so it is supposed to be a long term thing to chip away at.
 
 :clown_face: Or I'm just way waaay dumber than I already think I am...
@@ -61,7 +59,6 @@ During their extensive combinatorial efforts, **Alice** and **Bob** have made se
 **Bob** has noticed that the amount of volume to add of each sample to increase the signal is independent of sample composition. That is the optimal volume to add **is unique to each sample**. It doesn't change when other samples are introduced in a composition.
 
 ## ALL (Awesome Lab LIMS)
-
 Deploy a local version to your machine using:
 ```
 git clone https://github.com/smohler/labio-all.git
@@ -140,7 +137,7 @@ Pay close attention to **Alice** and **Bob's** observations and the inherent com
 
 # Task 2 (Automation)
 
-With Task 1 complete, you should have a much smaller search space. The next step is implementing another larger scale experiment.
+> With Task 1 complete, you should have a much smaller search space. The next step is implementing another larger scale experiment.
 Ensure you update the LIMS in real-time (or post-experiment) as you extract samples from the tubes.
 Post your maximum midi-chlorian activity reading and let's see how high the community can get!
 
