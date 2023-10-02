@@ -63,7 +63,7 @@ Deploy a local version to your machine using:
 ```
 git clone https://github.com/smohler/labio-all.git
 ```
-Consult the `README.md` for instructions on starting the example web-api to test and explore. This repository is an evolving example, so not everything may be pertinent to this task. It should be pretty simple though as I've provided some build scripts that should set everythign up and even launch a web-browser for you to interact with the API via a [Swagger UI](https://swagger.io/tools/swagger-ui/).
+Consult the `README.md` for instructions on starting the example web-api to test and explore. This repository is an evolving example, so not everything may be pertinent to this task. It should be pretty simple though as I've provided some build scripts that should set everything up and even launch a web-browser for you to interact with the API via a [Swagger UI](https://swagger.io/tools/swagger-ui/).
 ### Mac Users
 ```bash
 $ chmod +x run.sh
@@ -73,11 +73,18 @@ $ ./run.sh
 ```cmd
 \> labio-all\run.bat
 ```
-After you run either of these scripts you should see either an error (sorry...) or a web browser is pulled up and you can interact with the API. If you close the terminal you started the local server on then it will die. I have not set up a legit web-server to run this so you will have to run it locally. 
+After you run either of these scripts you should see either an error (sorry...) or a web browser should open allowing you to interact with the API. Close the browser, enter Ctrl + C in the terminal, to properly quit the app. If you close the terminal you started the local server on then it will die. I have not set up a legit web-server to run this so you will have to run it locally. 
 > :crossed_fingers: **SUGGESTION** I highly recommend you have docker installed on your computer. This seems to be the most stable build I can ensure works. Download the daemon [here](https://www.docker.com/products/docker-desktop/).
 ---
 ## Measuring Samples
-Included in this repo is an executable file (for Windows or Mac) called `measure.exe`. This program simulates sample measurements. The `README.md` provides detailed usage instructions. In essence, it mimics a real-world function where, given a list of `sampleIDs` and `volumes`, it returns the measurement value with some noise. Some example usage of a windows user of this program would be as such.
+Awesome Therapeutics engineering department has developed a custom plate reader to measure the midi-chlorian activity in the wells of a 384 well plate.
+It is highly sensitive to samples containing `CEL` or `DNA`. However, it is a descrutive measurement and consumes sample.
+***If any `BAC` or `PRO` material get into the machine new parts will need to be ordered!***
+
+Included in this repo is an executable file (for Windows or Mac) called `measure.exe`. This command line app simulate the measurement of **one well**.
+In essence, it mimics a real-world function where, given a list of `sampleIDs` and `volumes`, it returns the measurement value with some noise.
+Some example usage of a windows user of this program would be as such.
+
 ```bash
 \> labio-all\measure\windows\measure.exe --help
 # get some help...
@@ -93,7 +100,8 @@ Included in this repo is an executable file (for Windows or Mac) called `measure
 \> labio-all\measure\windows\measure.exe --ids PJU49IKLE BHF00043J --volumes 199.2 1233.89
 # This will break your plate reader and lock you out for 30 minutes!
 ```
-> :warning: **WARNING** - If you break the plate reader by giving it the `BAC` or `PRO` ever you will have to wait ***30 minutes*** to use it again!
+> :warning: **WARNING** - You can *break* your plate reader if you ever pass it a sample ID where the first character is "B" or "P".
+If you break the plate reader you will have to wait ***30 minutes*** to use it again!
 
 ### Sample ID
 *In the future I plan for `seq` value to point to much larger sequence data stored in s3 buckets for now we will just play with the characters `sampleID`.*
