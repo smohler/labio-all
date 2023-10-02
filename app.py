@@ -8,7 +8,9 @@ app = Flask(__name__)
 
 # Function to generate a random sampleID with 8 characters (capital letters and digits)
 def generate_sampleID():
-    return ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(8))
+    sample = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(8))
+    material = random.choice(['P','B','D','C'])
+    return material + sample 
 
 def generate_seq(sampleID, material):
     header = "awesometx.s3.amazonaws.com/wgs" 
